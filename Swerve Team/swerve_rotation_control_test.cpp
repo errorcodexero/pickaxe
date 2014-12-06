@@ -33,6 +33,10 @@ double correct_rotating_form(double current_rotation){//During wheel turn, this 
 	if(current_rotation<0)current_rotation+=(2*M_PI);//Changes negative values into the correct form
 	else if(current_rotation>(2*M_PI))current_rotation-=(2*M_PI);//Changes numbers greater than (2*M_PI) radians into the correct form
 	else if(current_rotation==(2*M_PI) || current_rotation==-(2*M_PI))current_rotation=0;//Changes numbers at (2*M_PI) radians into the correct form
+	else{
+		cout<<endl<<"ERROR IN DETERMINING CHANGE."<<endl;
+		return 0;
+	}
 	return current_rotation;
 }
 
@@ -79,102 +83,30 @@ ostream & operator<<(ostream & o, Input in){//Outputs from the vector if type In
 
 void current_rotation_direction(){//Uses the order of channel outputs for pins two (a) and four (b) to determine wheel rotating direction and estimates the amount of rotational change
 	double estimated_rotation=0;
+	bool a_state=0;
+	bool b_state=0;
 	std::cout<<std::setprecision(5)<<std::fixed;
-	cout<<"time | a | b | estimated rotation"<<endl;
+	cout<<"time   | a | b | estimated rotation"<<endl;
 	vector<Input> time;
 	Input channel_value;//The following are example values received from the encoder for the purpose of simulation.
-	channel_value.a=0;
-	channel_value.b=0;//t=0
-	time.push_back(channel_value);
-	channel_value.a=1;//Clockwise
-	channel_value.b=0;//t=1
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=1;//t=2
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=1;//t=3
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=0;//t=4
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=0;//t=5
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=1;//t=6
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=1;//t=7
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=0;//t=8
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=0;//t=9
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=1;//t=10
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=1;//t=11
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=0;//t=12
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=0;//t=13
-	time.push_back(channel_value);
-	//Turns rotational direction
-	channel_value.a=0;//Counter-clockwise
-	channel_value.b=0;//t=14
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=1;//t=15
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=1;//t=16
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=0;//t=17
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=0;//t=18
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=1;//t=19
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=1;//t=20
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=0;//t=21
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=0;//t=22
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=1;//t=23
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=1;//t=24
-	time.push_back(channel_value);
-	channel_value.a=1;
-	channel_value.b=0;//t=25
-	time.push_back(channel_value);
-	channel_value.a=0;
-	channel_value.b=0;//t=26
-	time.push_back(channel_value);
 	for(unsigned int i=0;i<time.size(); i++){//Determines rotation direction and estimates radian change
-		if((((i!=0) && (time[i].a==0 && time[i].b==0) && (time[i-1].a==0 && time[i-1].b==1)) || ((i!=0) && (time[i].a==1 && time[i].b==1) && (time[i-1].a==1 && time[i-1].b==0))) || (((time[i].a==1 && time[i].b==0) && (time[i-1].a==0 && time[i-1].b==0)) || ((time[i].a==0 && time[i].b==1) && (time[i-1].a==1 && time[i-1].b==1)))){//Determines if wheel is rotating clockwise
+		channel_value.a=a_state;
+		channel_value.b=b_state;
+		time.push_back(channel_value);
+		if((i!=0) && (time[i].a==time[i-1].a && time[i].b==time[i-1].b)){
+			//Null
+		}
+		else if((((i!=0) && (time[i].a==0 && time[i].b==0) && (time[i-1].a==0 && time[i-1].b==1)) || ((i!=0) && (time[i].a==1 && time[i].b==1) && (time[i-1].a==1 && time[i-1].b==0))) || (((time[i].a==1 && time[i].b==0) && (time[i-1].a==0 && time[i-1].b==0)) || ((time[i].a==0 && time[i].b==1) && (time[i-1].a==1 && time[i-1].b==1)))){//Determines if wheel is rotating clockwise
 			estimated_rotation+=M_PI;
 		}
 		else if((((i!=0) && (time[i].a==0 && time[i].b==0) && (time[i-1].a==1 && time[i-1].b==0)) || ((i!=0) && (time[i].a==1 && time[i].b==1) && (time[i-1].a==0 && time[i-1].b==1))) || (((time[i].a==0 && time[i].b==1) && (time[i-1].a==0 && time[i-1].b==0)) || ((time[i].a==1 && time[i].b==0) && (time[i-1].a==1 && time[i-1].b==1)))){//Determines if wheel is rotating counter-clockwise
 			estimated_rotation-=M_PI;
 		}
-		if(i<10)cout<<"  "<<i<<"   | "<<time[i]<<" | "<<estimated_rotation<<endl;
+		if(i<10)cout<<"  "<<i<<"    | "<<time[i]<<" | "<<estimated_rotation<<endl;//***Unnecessary after simulation***
+		else if(i<100)cout<<"  "<<i<<"   | "<<time[i]<<" | "<<estimated_rotation<<endl;
+		else if (i<1000)cout<<"  "<<i<<"  | "<<time[i]<<" | "<<estimated_rotation<<endl;
 		else{
-			cout<<"  "<<i<<"  | "<<time[i]<<" | "<<estimated_rotation<<endl;
+			cout<<"  "<<i<<" | "<<time[i]<<" | "<<estimated_rotation<<endl;
 		}
 	}
 }
