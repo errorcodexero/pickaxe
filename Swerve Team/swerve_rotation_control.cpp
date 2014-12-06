@@ -79,7 +79,7 @@ ostream & operator<<(ostream & o, Input in){//Outputs from the vector if type In
 
 void current_rotation_direction(){//Uses the order of channel outputs for pins two (a) and four (b) to determine wheel rotating direction and estimates the amount of rotational change
 	double estimated_rotation=0;
-	std::cout<<std::setprecision(5)<<std::fixed<<estimated_rotation;
+	std::cout<<std::setprecision(5)<<std::fixed;
 	cout<<"time | a | b | estimated rotation"<<endl;
 	vector<Input> time;
 	Input channel_value;//The following are example values received from the encoder for the purpose of simulation.
@@ -172,7 +172,10 @@ void current_rotation_direction(){//Uses the order of channel outputs for pins t
 		else if((((i!=0) && (time[i].a==0 && time[i].b==0) && (time[i-1].a==1 && time[i-1].b==0)) || ((i!=0) && (time[i].a==1 && time[i].b==1) && (time[i-1].a==0 && time[i-1].b==1))) || (((time[i].a==0 && time[i].b==1) && (time[i-1].a==0 && time[i-1].b==0)) || ((time[i].a==1 && time[i].b==0) && (time[i-1].a==1 && time[i-1].b==1)))){//Determines if wheel is rotating counter-clockwise
 			estimated_rotation-=M_PI;
 		}
-		cout<<"  "<<i<<"  | "<<time[i]<<" | "<<estimated_rotation<<endl;
+		if(i<10)cout<<"  "<<i<<"   | "<<time[i]<<" | "<<estimated_rotation<<endl;
+		else{
+			cout<<"  "<<i<<"  | "<<time[i]<<" | "<<estimated_rotation<<endl;
+		}
 	}
 }
 
