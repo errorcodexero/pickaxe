@@ -4,9 +4,8 @@
 
 using namespace std;
 
-
-
 static const unsigned MODULES=3;
+
 struct Module_goal{
 	double angle; //rad
 	double speed; //in-1to1
@@ -23,12 +22,20 @@ struct Testcase{
 	Drivebase_goal expected;
 };
 
+ostream& operator<<(ostream& o,Module_goal m){
+	o<<"angle=  "<<m.angle<<endl;
+	o<<"speed=  "<<m.speed<<endl;
+}
+
+ostream& operator<<(ostream& o,Drivebase_goal d){
+	o<<"Modules=  "<<d.mod[MODULES]<<endl;
+}
+
 ostream& operator<<(ostream& o,Testcase t){
 	o<<"joy x=  "<<t.joy_x<<endl;
 	o<<"joy y=  "<<t.joy_y<<endl;
 	o<<"joy theta=  "<<t.joy_theta<<endl;
 }
-
 
 int main(){
 	
