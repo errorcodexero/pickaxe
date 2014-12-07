@@ -6,14 +6,14 @@
 using namespace std;
 
 struct Buttons {
-	int a;
-	int b;
-	int x;
-	int y;
-	int rb;
-	int rt;
-	int lb;
-	int lt;
+	bool a;
+	bool b;
+	bool x;
+	bool y;
+	bool rb;
+	bool rt;
+	bool lb;
+	bool lt;
 };
 
 struct Joystick {
@@ -56,9 +56,26 @@ void getgamepad (Controller &gamepad) {
 	gamepad.button.lt = 0;
 }
 
+void testgamepad (Controller &gamepad, float LJx, float LJy, float RJx, float RJy, bool a, bool b, bool x, bool y, bool RB, bool RT, bool LB, bool LT) {
+	gamepad.left_joy.x = LJx;
+	gamepad.left_joy.y = LJy;
+	gamepad.right_joy.x = RJx;
+	gamepad.right_joy.y = RJy;
+	gamepad.button.a = a;
+	gamepad.button.b = b;
+	gamepad.button.x = x;
+	gamepad.button.y = y;
+	gamepad.button.rb = RB;
+	gamepad.button.rt = RT;
+	gamepad.button.lb = LB;
+	gamepad.button.lt = LT;
+}
+
 int main(){
+	Controller TestA;
+	testgamepad(TestA,0,1,0,0,false,false,false,false,false,false,false,false);
 	Controller gamepad;
-	getgamepad(gamepad);
+	gamepad = TestA;
 	std::cout<<gamepad<<"\n";
 	/**Joystick_linux a("/dev/input/js0");
 	cout<<a.read()<<"\n";**/
