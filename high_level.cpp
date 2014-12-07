@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Drivebase_goal swerve goals(float joy_x, float joy_y, float joy_theta);
+
 
 static const unsigned MODULES=3;
 struct Module_goal{
@@ -16,22 +16,18 @@ struct Drivebase_goal{
 	Module_goal mod[MODULES];
 };
 
-
+Drivebase_goal swerve_goals(float joy_x, float joy_y, float joy_theta);
 
 struct Testcase{
 	double joy_x,joy_y,joy_theta;
 	Drivebase_goal expected;
 };
 
-
-
-ostream& operator<<(ostream& o,Testcase){
-	o<<"joy x=  "<<joy_x<<endl;
-	o<<"joy y=  "<<joy_y<<endl;
-	o<<"joy theta=  "<<joy_theta<<endl;
+ostream& operator<<(ostream& o,Testcase t){
+	o<<"joy x=  "<<t.joy_x<<endl;
+	o<<"joy y=  "<<t.joy_y<<endl;
+	o<<"joy theta=  "<<t.joy_theta<<endl;
 }
-
-
 
 
 int main(){
