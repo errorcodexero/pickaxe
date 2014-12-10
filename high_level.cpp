@@ -2,8 +2,12 @@
 #include <math.h>
 #include <vector>
 //#include <stdlib>
+#include <string>
+#include <stdio.h>
 
 using namespace std;
+
+//TODO Add Cardinal Directions
 
 static const unsigned MODULES=3;
 
@@ -54,7 +58,19 @@ int main(){
 	Drivebase_goal testd;
 	testd=swerve_goals (1,0,0);
 	cout<<testd<<endl;
-	vector<Testcase> testcasetest;	
+	string input;
+	cout<<"Input joy_x"<<endl;
+	cout<<"Input joy_y"<<endl;
+	cout<<"Input joy_theta"<<endl;
+	cin>>input;
+	cout<<input<<endl;
+	Testcase test;
+	//test.joy_theta=input;
+/*	vector<Testcase> testcasetest;	
+	Testcase a;
+	testcasetest.push_back(a);
+	testcasetest.push_back(a);
+	testcasetest.push_back(a);
 	testcasetest[0].joy_x=1;
 	testcasetest[0].joy_y=1;
 	testcasetest[0].joy_theta=1;
@@ -63,6 +79,6 @@ int main(){
 	testcasetest[1].joy_theta=1;
 	testcasetest[2].joy_x=1;
 	testcasetest[2].joy_y=1;
-	testcasetest[2].joy_theta=1;
+	testcasetest[2].joy_theta=1; */
 	
 }
