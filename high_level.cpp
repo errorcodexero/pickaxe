@@ -90,3 +90,12 @@ int main(){
 	testcasetest[2].joy_theta=1; */
 	
 }
+
+/*
+double theta_return(double joy_x, double joy_y){
+	double hypotenuse=plug (joy_x,joy_y) and (0,0) into the distance formula;
+	double adjacent=x_joy;
+	double joy_theta=cos or sin using the above variables
+	return joy_theta;
+}
+*/
