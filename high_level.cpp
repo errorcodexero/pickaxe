@@ -42,14 +42,22 @@ ostream& operator<<(ostream& o,Testcase t){
 	o<<"joy theta=  "<<t.joy_theta<<endl;
 }
 
+int findangle(float joy_x,float joy_y,float joy_theta){
+
+}
+
+int findspeed(float joy_x,float joy_y,float joy_theta){
+
+}
+
 Drivebase_goal swerve_goals(float joy_x, float joy_y, float joy_theta){
 	Drivebase_goal d;
-	d.mod[0].angle=1;
-	d.mod[0].speed=1;
-	d.mod[1].angle=1;
-	d.mod[1].speed=1;
-	d.mod[2].angle=1;
-	d.mod[2].speed=1;	
+	d.mod[0].angle=findangle(joy_x,joy_y,joy_theta);
+	d.mod[0].speed=findspeed(joy_x,joy_y,joy_theta);
+	d.mod[1].angle=findangle(joy_x,joy_y,joy_theta);
+	d.mod[1].speed=findspeed(joy_x,joy_y,joy_theta);
+	d.mod[2].angle=findangle(joy_x,joy_y,joy_theta);
+	d.mod[2].speed=findspeed(joy_x,joy_y,joy_theta);
 	return d;
 }
 
