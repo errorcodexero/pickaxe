@@ -42,11 +42,11 @@ ostream& operator<<(ostream& o,Testcase t){
 	o<<"joy theta=  "<<t.joy_theta<<endl;
 }
 
-int findangle(float joy_x,float joy_y,float joy_theta){
+float findangle(float joy_x,float joy_y,float joy_theta){
 
 }
 
-int findspeed(float joy_x,float joy_y,float joy_theta){
+float findspeed(float joy_x,float joy_y,float joy_theta){
 
 }
 
