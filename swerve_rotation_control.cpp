@@ -128,11 +128,11 @@ int main(){
 			assert(encoder_return.time-1>=0 && encoder_return.time-1<encoder_states.size());
 			cout<<"  "<<encoder_return.time<<"    | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;//***Unnecessary after simulation***
 		}
-		//else if(encoder_return.time<100)cout<<"  "<<encoder_return.time<<"   | "<<encoder_states[encoder_return.time]<<" | "<<encoder_return.estimated_rotation<<endl;
-		//else if (encoder_return.time<1000)cout<<"  "<<encoder_return.time<<"  | "<<encoder_states[encoder_return.time]<<" | "<<encoder_return.estimated_rotation<<endl;
-		//else{
-			//cout<<"  "<<encoder_return.time<<" | "<<encoder_states[encoder_return.time]<<" | "<<encoder_return.estimated_rotation<<endl;
-		//}
+		else if(encoder_return.time<100)cout<<"  "<<encoder_return.time<<"   | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
+		else if (encoder_return.time<1000)cout<<"  "<<encoder_return.time<<"  | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
+		else{
+			cout<<"  "<<encoder_return.time<<" | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
+		}
 	}
 	cout<<endl<<encoder_states[4]<<endl;
 	/*double current_rotation, target_rotation, radian_change;
