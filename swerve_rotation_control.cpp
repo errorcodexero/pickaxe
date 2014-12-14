@@ -73,12 +73,17 @@ double simulation(double current_rotation, double target_rotation, double radian
 	return current_rotation;
 }
 
-struct Encoder_output{bool a,b;};//This is a type for the input received from the encoder -- "a" (pin two) and "b" (pin four)
+struct Encoder_output{//This is a type for the input received from the encoder -- "a" (pin two) and "b" (pin four)
+	bool a,b;
+	Encoder_output():a(0),b(0){}
+};
 
-struct Encoder_return{
+struct Encoder_return{//The important data values for each encoder are stored in this type
+	char wheel;
 	double estimated_rotation;
 	unsigned int time;
 	Encoder_output states;
+	Encoder_return():estimated_rotation(0), time(0){}
 };
 
 ostream & operator<<(ostream & o, Encoder_output in){//Outputs from the vector if type Input the states of the a and b channels as this code interprets it
@@ -86,13 +91,33 @@ ostream & operator<<(ostream & o, Encoder_output in){//Outputs from the vector i
 	return o;
 }
 
-vector<Encoder_output> encoder_states;
-Encoder_output channel_value;
+void print_encoder_values(Encoder_return encoder_return, vector<Encoder_output> encoder_states){//Prints out the values of a and b and the estimated rotation direction for each wheel over time
+	if(encoder_return.time<10){
+		assert(encoder_return.time-1>=0 && encoder_return.time-1<encoder_states.size());
+		cout<<"   "<<encoder_return.wheel<<"  | "<<"  "<<encoder_return.time<<"    | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;//***Unnecessary after simulation***
+	}
+	else if(encoder_return.time<100){
+		assert(encoder_return.time-1>=0 && encoder_return.time-1<encoder_states.size());
+		cout<<"   "<<encoder_return.wheel<<"  | "<<encoder_return.time<<"   | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
+	}
+	else if (encoder_return.time<1000){
+		assert(encoder_return.time-1>=0 && encoder_return.time-1<encoder_states.size());
+		cout<<"   "<<encoder_return.wheel<<"  | "<<encoder_return.time<<"  | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
+	}
+	else{
+		assert(encoder_return.time-1>=0 && encoder_return.time-1<encoder_states.size());
+		cout<<"   "<<encoder_return.wheel<<"  | "<<encoder_return.time<<" | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
+	}
+}
 
-Encoder_return current_rotation_direction(Encoder_return encoder_return){//Uses the order of channel outputs for pins two (a) and four (b) to determine wheel rotating direction and estimates the amount of rotational change
+Encoder_output Channel_value(Encoder_return encoder_return){//Stores a and b values from the encoder in a vector for later use in determining wheel rotation direction
+	Encoder_output channel_value;
 	channel_value.a=encoder_return.states.a;
 	channel_value.b=encoder_return.states.b;
-	encoder_states.push_back(channel_value);
+	return channel_value;
+}
+
+Encoder_return current_rotation_direction(Encoder_return encoder_return, vector<Encoder_output> encoder_states){//Uses the order of channel outputs for pins two (a) and four (b) to determine wheel rotating direction and estimates the amount of rotational change
 	assert(encoder_return.time<encoder_states.size());
 	bool now_a=encoder_states[encoder_return.time].a, now_b=encoder_states[encoder_return.time].b, pre_a=0, pre_b=0;
 	if(encoder_states.size()>0){
@@ -117,24 +142,35 @@ Encoder_return current_rotation_direction(Encoder_return encoder_return){//Uses 
 
 int main(){
 	std::cout<<std::setprecision(5)<<std::fixed;
-	Encoder_return encoder_return;
-	encoder_return.time=0;
-	encoder_return.states.a=0;
-	encoder_return.states.b=0;
-	cout<<"time   | a | b | estimated rotation"<<endl;
-	for(unsigned int i; i<10; i++){
-		encoder_return=current_rotation_direction(encoder_return);
-		if(encoder_return.time<10){
-			assert(encoder_return.time-1>=0 && encoder_return.time-1<encoder_states.size());
-			cout<<"  "<<encoder_return.time<<"    | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;//***Unnecessary after simulation***
-		}
-		else if(encoder_return.time<100)cout<<"  "<<encoder_return.time<<"   | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
-		else if (encoder_return.time<1000)cout<<"  "<<encoder_return.time<<"  | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
-		else{
-			cout<<"  "<<encoder_return.time<<" | "<<encoder_states[encoder_return.time-1]<<" | "<<encoder_return.estimated_rotation<<endl;
-		}
-	}
-	cout<<endl<<encoder_states[4]<<endl;
+	cout<<"Wheel | time   | a | b | estimated rotation"<<endl;
+	
+	Encoder_return encoder_return_b;//Back wheel encoder
+	vector<Encoder_output> encoder_states_b;
+	encoder_return_b.wheel='b';
+	encoder_return_b.states.a=0;
+	encoder_return_b.states.b=0;
+	encoder_states_b.push_back(Channel_value(encoder_return_b));
+	encoder_return_b=current_rotation_direction(encoder_return_b, encoder_states_b);
+	print_encoder_values(encoder_return_b, encoder_states_b);
+		
+	Encoder_return encoder_return_l;//Left wheel encoder
+	vector<Encoder_output> encoder_states_l;
+	encoder_return_l.wheel='l';
+	encoder_return_l.states.a=0;
+	encoder_return_l.states.b=0;
+	encoder_states_l.push_back(Channel_value(encoder_return_l));
+	encoder_return_l=current_rotation_direction(encoder_return_l, encoder_states_l);
+	print_encoder_values(encoder_return_l, encoder_states_l);
+	
+	Encoder_return encoder_return_r;//Right wheel encoder
+	vector<Encoder_output> encoder_states_r;
+	encoder_return_r.wheel='r';
+	encoder_return_r.states.a=0;
+	encoder_return_r.states.b=0;
+	encoder_states_r.push_back(Channel_value(encoder_return_r));
+	encoder_return_r=current_rotation_direction(encoder_return_r, encoder_states_r);
+	print_encoder_values(encoder_return_r, encoder_states_r);
+	
 	/*double current_rotation, target_rotation, radian_change;
 	cout<<endl<<"What is the current wheel rotation? ";//Prompts the user for current wheel rotation
 	cin>>current_rotation;
