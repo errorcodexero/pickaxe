@@ -36,6 +36,22 @@ ostream& operator<<(ostream & o, Sensor_states b){
 	return o;
 }
 
+ostream& operator<<(ostream & o, vector<Scooper_control> v){
+	unsigned int i=0;
+	for(; i<v.size(); i++){
+		o<<v[i]<<" ";
+	}
+	return o;
+}
+
+ostream& operator<<(ostream & o, vector<Sensor_states> v){
+	unsigned int i=0;
+	for(; i<v.size(); i++){
+		o<<v[i]<<" ";
+	}
+	return o;
+}
+
 Scooper_control motor_control(Scooper_control scooper_control, Sensor_states sensor_states){//Determines what to do with the motor.
 	Scooper_control motor_state;
 	if(scooper_control==Scooper_control::STOP){
@@ -63,24 +79,20 @@ int main(){
 	Scooper_control motor_state=Scooper_control::STOP;
 	vector<Scooper_control> v_scooper_control;
 	vector<Sensor_states> v_sensor_states;
-	for(unsigned int i=0; i<4; i++){
-		v_scooper_control.push_back(Scooper_control::UP);
-	}
-	for(unsigned int i=0; i<4; i++){
-		v_scooper_control.push_back(Scooper_control::DOWN);
-	}
-	for(unsigned int i=0; i<4; i++){
-		v_scooper_control.push_back(Scooper_control::STOP);
-	}
-	for(unsigned int i=0; i<3; i++){
-		v_sensor_states.push_back(Sensor_states::UP);
-		v_sensor_states.push_back(Sensor_states::DOWN);
-		v_sensor_states.push_back(Sensor_states::INBETWEEN);
-		v_sensor_states.push_back(Sensor_states::ERROR);
-	}
-	for(unsigned int i=0; i<12; i++){
-		motor_state=motor_control(v_scooper_control[i], v_sensor_states[i]);
-		cout<<motor_state<<endl;
+	v_scooper_control.push_back(Scooper_control::UP);
+	v_scooper_control.push_back(Scooper_control::DOWN);
+	v_scooper_control.push_back(Scooper_control::STOP);
+	v_sensor_states.push_back(Sensor_states::UP);
+	v_sensor_states.push_back(Sensor_states::DOWN);
+	v_sensor_states.push_back(Sensor_states::INBETWEEN);
+	v_sensor_states.push_back(Sensor_states::ERROR);
+	for(unsigned int i=0; i<v_scooper_control.size(); i++){
+		Scooper_control i_v_scooper_control=v_scooper_control[i];
+		for(unsigned int i=0; i<v_sensor_states.size(); i++){
+			Sensor_states i_v_sensor_states=v_sensor_states[i];
+			motor_state=motor_control(i_v_scooper_control, i_v_sensor_states);
+			cout<<motor_state<<endl;
+		}
 	}
 	return 0;
 }
