@@ -22,17 +22,6 @@ double determine_change(double current_rotation, double target_rotation){//Deter
 	else if((target_rotation-current_rotation)<=M_PI && (target_rotation-current_rotation)>-M_PI)return (target_rotation-current_rotation);//Determine the amount of radians needed to change
 	else if((target_rotation-current_rotation)>M_PI)return ((target_rotation-current_rotation)-(2*M_PI));//Determine the amount of radians needed to change
 	else if((target_rotation-current_rotation)<-M_PI)return ((target_rotation-current_rotation)+(2*M_PI));//Determine the amount of radians needed to change
-	else{
-		cout<<endl<<"ERROR IN DETERMINING CHANGE."<<endl;
-		return 0;
-	}
-}
-
-double correct_rotating_form(double current_rotation){//During wheel turn, this will correct to radian form (i.e. 0-(2*pi))
-	if(current_rotation<0)current_rotation+=(2*M_PI);//Changes negative values into the correct form
-	else if(current_rotation>(2*M_PI))current_rotation-=(2*M_PI);//Changes numbers greater than (2*M_PI) radians into the correct form
-	else if(current_rotation==(2*M_PI) || current_rotation==-(2*M_PI))current_rotation=0;//Changes numbers at (2*M_PI) radians into the correct form
-	return current_rotation;
 }
 
 double simulation(double current_rotation, double target_rotation, double radian_change){//Simulates wheel rotation
@@ -49,7 +38,7 @@ double simulation(double current_rotation, double target_rotation, double radian
 				return current_rotation;
 			}
 			current_rotation--;
-			current_rotation=correct_rotating_form(current_rotation);
+			current_rotation=correct_radian_form(current_rotation);
 			cout<<"At "<<current_rotation<<" radians."<<endl;
 		}
 		else if(radian_change>0){//Simulates positive change
@@ -60,7 +49,7 @@ double simulation(double current_rotation, double target_rotation, double radian
 				return current_rotation;
 			}
 			current_rotation++;
-			current_rotation=correct_rotating_form(current_rotation);
+			current_rotation=correct_radian_form(current_rotation);
 			cout<<"At "<<current_rotation<<" radians."<<endl;
 		}
 	}
