@@ -10,6 +10,10 @@
 
 using namespace std;
 
+struct Wheel_rotation{
+	double current_rotation, target_rotation, radian_change;
+};
+
 double correct_radian_form(double input){//Corrects to the correct radian form (i.e. 0-(2*pi))
 	while(input<0)input+=(2*M_PI);
 	while(input>(2*M_PI))input-=(2*M_PI);
@@ -57,15 +61,17 @@ double simulation(double current_rotation, double target_rotation, double radian
 }
 
 int main(){
-	static double current_rotation_l, target_rotation_l, radian_change_l, current_rotation_b, target_rotation_b, radian_change_b, current_rotation_r, target_rotation_r, radian_change_r;
+	Wheel_rotation wheel_l;
+	Wheel_rotation wheel_b;
+	Wheel_rotation wheel_r;
 	cout<<endl<<"What is the current wheel rotation?(l) ";//Prompts the user for current wheel rotation
-	cin>>current_rotation_l;
-	current_rotation_l=correct_radian_form(current_rotation_l);
+	cin>>wheel_l.target_rotation;
+	wheel_l.current_rotation=correct_radian_form(wheel_l.target_rotation);
 	cout<<"What is the target wheel rotation?(l) ";//Prompts the user for current wheel rotation
-	cin>>target_rotation_l;
+	cin>>wheel_l.target_rotation;
 	cout<<endl;
-	target_rotation_l=correct_radian_form(target_rotation_l);
-	radian_change_l=determine_change(current_rotation_l, target_rotation_l);
-	current_rotation_l=simulation(current_rotation_l, target_rotation_l, radian_change_l);//Returns current_rotation after simulation
+	wheel_l.target_rotation=correct_radian_form(wheel_l.target_rotation);
+	wheel_l.radian_change=determine_change(wheel_l.current_rotation, wheel_l.target_rotation);
+	wheel_l.current_rotation=simulation(wheel_l.current_rotation, wheel_l.target_rotation, wheel_l.radian_change);//Returns current_rotation after simulation
 	return 0;
 }
