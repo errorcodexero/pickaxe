@@ -1,13 +1,13 @@
-//Author: Logan Traffas
+//Author: Logan Traffas and Andrew Kassab.
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-enum class Scooper_control{UP, STOP, DOWN};
-enum class Sensor_states{UP, DOWN, INBETWEEN, ERROR};
+enum class Scooper_control{UP, STOP, DOWN};//Values from control
+enum class Sensor_states{UP, DOWN, INBETWEEN, ERROR};//Values for sensors that determine the arm's state
 
-ostream& operator<<(ostream & o, Scooper_control b){
+ostream& operator<<(ostream & o, Scooper_control b){//How to print this type
 	if(b==Scooper_control::UP){
 		o<<"UP";
 	}
@@ -20,7 +20,7 @@ ostream& operator<<(ostream & o, Scooper_control b){
 	return o;
 }
 
-ostream& operator<<(ostream & o, Sensor_states b){
+ostream& operator<<(ostream & o, Sensor_states b){//How to print this type
 	if(b==Sensor_states::UP){
 		o<<"UP";
 	}
@@ -36,7 +36,7 @@ ostream& operator<<(ostream & o, Sensor_states b){
 	return o;
 }
 
-ostream& operator<<(ostream & o, vector<Scooper_control> v){
+ostream& operator<<(ostream & o, vector<Scooper_control> v){//How to print the vector
 	unsigned int i=0;
 	for(; i<v.size(); i++){
 		o<<v[i]<<" ";
@@ -44,7 +44,7 @@ ostream& operator<<(ostream & o, vector<Scooper_control> v){
 	return o;
 }
 
-ostream& operator<<(ostream & o, vector<Sensor_states> v){
+ostream& operator<<(ostream & o, vector<Sensor_states> v){//How to print the vector
 	unsigned int i=0;
 	for(; i<v.size(); i++){
 		o<<v[i]<<" ";
@@ -76,7 +76,7 @@ Scooper_control motor_control(Scooper_control scooper_control, Sensor_states sen
 }
 
 int main(){
-	Scooper_control motor_state=Scooper_control::STOP;
+	Scooper_control motor_state=Scooper_control::STOP;//Declares all possible values for testing
 	vector<Scooper_control> v_scooper_control;
 	vector<Sensor_states> v_sensor_states;
 	v_scooper_control.push_back(Scooper_control::UP);
