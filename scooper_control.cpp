@@ -1,6 +1,7 @@
 //Author: Logan Traffas and Andrew Kassab.
 #include <iostream>
 #include <vector>
+#include <assert.h>
 
 using namespace std;
 
@@ -56,26 +57,50 @@ Scooper_control motor_control(Scooper_control scooper_control, Sensor_states sen
 	Scooper_control motor_state;
 	if(scooper_control==Scooper_control::STOP){
 		motor_state=Scooper_control::STOP;
+		return motor_state;
 	}
 	else if(scooper_control==Scooper_control::UP && sensor_states!=Sensor_states::UP && sensor_states!=Sensor_states::ERROR){
 		motor_state=Scooper_control::UP;
+		return motor_state;
 	}
 	else if(scooper_control==Scooper_control::UP && sensor_states==Sensor_states::UP){
-		motor_state=Scooper_control::STOP;
+		motor_state=Scooper_control::STOP;	
+		return motor_state;
 	}
 	else if(scooper_control==Scooper_control::DOWN && sensor_states!=Sensor_states::DOWN && sensor_states!=Sensor_states::ERROR){
 		motor_state=Scooper_control::DOWN;
+		return motor_state;
 	}
 	else if(scooper_control==Scooper_control::DOWN && sensor_states==Sensor_states::DOWN){
 		motor_state=Scooper_control::STOP;
+		return motor_state;
 	}
 	else if(sensor_states==Sensor_states::ERROR){
 		motor_state=Scooper_control::STOP;
+		return motor_state;
 	}
-	return motor_state;
+	
+	assert(0);
+
 }
 
 int main(){
+	Scooper_control a = Scooper_control::UP;
+	Sensor_states b = Sensor_states::UP;
+	Scooper_control var = motor_control(a,b);
+	
+	Scooper_control motor_target = var;
+	
+	if (motor_target==Scooper_control::UP){
+	//Move up 
+	}
+	else if (motor_target==Scooper_control::DOWN){
+	//Move Down
+	}
+	else if (motor_target==Scooper_control::STOP){
+	//Do nothing
+	}
+	
 	Scooper_control motor_state=Scooper_control::STOP;//Declares all possible values for testing
 	vector<Scooper_control> v_scooper_control;
 	vector<Sensor_states> v_sensor_states;
