@@ -1,4 +1,4 @@
-//Author: Logan Traffas *****Unfinished***** Function: Simulates wheel movement given current and target positions (the current units are radians). 
+//Author: Logan Traffas *****Unfinished***** Function: Simulates wheel movement given current and target positions (the current units are radians).
 //Also determines the current wheel rotation given encoder output.
 #include <iostream>
 #include <cmath>
@@ -57,15 +57,15 @@ double simulation(double current_rotation, double target_rotation, double radian
 }
 
 int main(){
-	double current_rotation, target_rotation, radian_change;
-	cout<<endl<<"What is the current wheel rotation? ";//Prompts the user for current wheel rotation
-	cin>>current_rotation;
-	current_rotation=correct_radian_form(current_rotation);
-	cout<<"What is the target wheel rotation? ";//Prompts the user for current wheel rotation
-	cin>>target_rotation;
+	static double current_rotation_l, target_rotation_l, radian_change_l, current_rotation_b, target_rotation_b, radian_change_b, current_rotation_r, target_rotation_r, radian_change_r;
+	cout<<endl<<"What is the current wheel rotation?(l) ";//Prompts the user for current wheel rotation
+	cin>>current_rotation_l;
+	current_rotation_l=correct_radian_form(current_rotation_l);
+	cout<<"What is the target wheel rotation?(l) ";//Prompts the user for current wheel rotation
+	cin>>target_rotation_l;
 	cout<<endl;
-	target_rotation=correct_radian_form(target_rotation);
-	radian_change=determine_change(current_rotation, target_rotation);
-	current_rotation=simulation(current_rotation, target_rotation, radian_change);//Returns current_rotation after simulation
+	target_rotation_l=correct_radian_form(target_rotation_l);
+	radian_change_l=determine_change(current_rotation_l, target_rotation_l);
+	current_rotation_l=simulation(current_rotation_l, target_rotation_l, radian_change_l);//Returns current_rotation after simulation
 	return 0;
 }

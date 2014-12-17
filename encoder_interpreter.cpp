@@ -1,5 +1,4 @@
-//Author: Logan Traffas *****Unfinished***** Function: Simulates wheel movement given current and target positions (the current units are radians). 
-//Also determines the current wheel rotation given encoder output.
+//Author: Logan Traffas
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -68,10 +67,10 @@ Encoder_return current_rotation_direction(Encoder_return encoder_return, vector<
 		//Null. Nothing has changed.
 	}
 	else if((((encoder_return.time!=0) && (now_a==0 && now_b==0) && (pre_a==0 && pre_b==1)) || ((encoder_return.time!=0) && (now_a==1 && now_b==1) && (pre_a==1 && pre_b==0))) || (((now_a==1 && now_b==0) && (pre_a==0 && pre_b==0)) || ((now_a==0 && now_b==1) && (pre_a==1 && pre_b==1)))){//Determines if wheel is rotating clockwise
-		encoder_return.estimated_rotation+=4.1887902;
+		encoder_return.estimated_rotation+=0.0261799388;
 	}
 	else if((((encoder_return.time!=0) && (now_a==0 && now_b==0) && (pre_a==1 && pre_b==0)) || ((encoder_return.time!=0) && (now_a==1 && now_b==1) && (pre_a==0 && pre_b==1))) || (((now_a==0 && now_b==1) && (pre_a==0 && pre_b==0)) || ((now_a==1 && now_b==0) && (pre_a==1 && pre_b==1)))){//Determines if wheel is rotating counter-clockwise
-		encoder_return.estimated_rotation-=4.1887902;
+		encoder_return.estimated_rotation-=0.0261799388;
 	}
 	encoder_return.time++;
 	return encoder_return;
